@@ -7,7 +7,7 @@ import { MovieContext } from "../context";
 export default function MovieCard({ movie }) {
   const [modal, setModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const {state, dispatch} = useContext(MovieContext)
+  const {cartData, setCartData} = useContext(MovieContext)
   function handleCloseModal() {
     setSelectedMovie(null)
     setModal(false)
@@ -22,21 +22,18 @@ export default function MovieCard({ movie }) {
   function handleAddToCart(e,movie) {
     e.stopPropagation()
 
-    const found = state.cartData.find(
+    const found = cartData.find(
     (item)=>{
       return item.id === movie.id
     }
     )
     if (!found) {
-      dispatch({
-        type: "ADD_TO_CART",
-        payload: {
-          ...movie
-        }
-      });
-    } else {
-      console.error("Already Added")
-    } 
+      setCartData([
+        ...cartData,movie
+      ])
+    }else{
+        console.error("Already Added")
+      } 
     
 
 
